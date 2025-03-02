@@ -64,7 +64,7 @@ blocks:
     segments:
       - type: session
         foreground: 'p:user-text'
-        leading_diamond: '<p:first-left-prompt>󰇥 </>'
+        leading_diamond: '<p:first-left-prompt>\f01e5 </>'
         properties:
           display_host: true
         style: diamond
