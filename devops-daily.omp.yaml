@@ -1,28 +1,28 @@
 $schema: >-
   https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 version: 3
+console_title_template: '{{ .Folder }}'
 palette:
   background-color: transparent
-  user: '#ffbebc'
-  right-section: '#e8c13f'
+  white-text: '#ffffff'
+  first-left-prompt: '#ff70a6'
+  first-right-prompt: '#fad38c'
+  second-left-prompt: '#ffafd2'
+  third-left-prompt: '#7eb8da'
   cloud-text-aws: '#fa9e2d'
   cloud-text-azure: '#4285F4'
   cloud-text-gcp: '#82fa2d'
-  git-text: '#238636'
+  user: '#ffbebc'
+  git-text: '#ee79d1'
   kubernetes-text: '#6388ff'
   success-text: '#57fa6c'
   error-text: '#eb4034'
-  symbol-color: '#ffffff'
-console_title_template: '{{ .Folder }}'
-transient_prompt:
-  background: transparent
-  foreground: '#FEF5ED'
-  template: ' '
 
 tooltips:
   - type: kubectl
     tips:
       - kubectl
+      - kubectx
       - kube
       - helm
     style: plain
@@ -63,16 +63,16 @@ blocks:
     type: prompt
     segments:
       - type: session
-        foreground: 'p:user'
-        leading_diamond: '<#ff70a6>󰇥 </>'
+        foreground: 'p:user-text'
+        leading_diamond: '<p:first-left-prompt>󰇥 </>'
         properties:
           display_host: true
         style: diamond
         template: >-
-          {{ if .SSHSession }}  {{ if .Root }} <#ffffff>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <#ffffff>at</>
+          {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>at</>
       - type: git
         alias: gitSeg
-        foreground: '#ee79d1'
+        foreground: 'p:git-text'
         properties:
           fetch_stash_count: true
           fetch_status: true
@@ -91,16 +91,16 @@ blocks:
         template: "{{ if eq .Code 0 }}<p:success-text>\uf00c{{ else }}<p:error-text>\uf071{{ end }}"
         properties:
           always_enabled: true
-      - foreground: 'p:right-section'
+      - foreground: 'p:first-right-prompt'
         properties:
           style: dallas
           threshold: 0
         style: plain
-        template: ' {{ .FormattedMs }}s <#ffffff>|</>'
+        template: ' {{ .FormattedMs }}s <p:white-text>|</>'
         type: executiontime
-      - foreground: 'p:right-section'
+      - foreground: 'p:first-right-prompt'
         properties:
-          time_format: '_2 Jan 2006(Mon)<#ffffff>,</>15:04'
+          time_format: '_2 Jan 2006(Mon)<p:white-text>,</>15:04'
         style: diamond
         template: '{{ .CurrentDate | date .Format }} '
         type: time
@@ -108,24 +108,22 @@ blocks:
     newline: true
     type: prompt
     segments:
-      - foreground: '#ffafd2'
-        leading_diamond: '<#00c7fc></><#ffafd2></>'
-        trailing_diamond: '<#ffafd2> </>'
+      - foreground: 'p:second-left-prompt'
         properties:
           style: agnoster_short
           home_icon: home
           max_depth: 2
           folder_icon: ...
           folder_separator_icon: "/"
-        style: diamond
+        style: plain
         template: ' {{ .Path }} '
         type: path
   - alignment: left
     newline: true
     segments:
-    - foreground: "#7eb8da"
+    - foreground: "p:third-left-prompt"
       style: plain
-      template: '<#00c7fc> </>'
+      template: ' '
       type: text
     type: prompt
 
