@@ -25,6 +25,7 @@ tooltips:
       - kubectx
       - kube
       - helm
+      - k9s
     style: plain
     foreground: 'p:kubernetes-text'
     properties:
