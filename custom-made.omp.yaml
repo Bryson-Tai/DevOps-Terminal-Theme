@@ -4,18 +4,59 @@ version: 3
 palette:
   background-color: transparent
   user: '#ffbebc'
-  right-section: '#a9ffb4'
-  cloud-text-amazon: '#4285F4'
+  right-section: '#e8c13f'
+  cloud-text-aws: '#fa9e2d'
   cloud-text-azure: '#4285F4'
-  cloud-text-gcp: '#4285F4'
-  cloud-text-firebase: '#FFA000'
-  error-background: '#dd0033'
-  error-text: '#eb4034'
+  cloud-text-gcp: '#82fa2d'
   git-text: '#238636'
-  kubernetes-text: '#FFBB00'
-  talosctl-text: '#FF6C00'
+  kubernetes-text: '#6388ff'
+  success-text: '#57fa6c'
+  error-text: '#eb4034'
   symbol-color: '#ffffff'
-  timer-text: '#dd0033'
+console_title_template: '{{ .Folder }}'
+transient_prompt:
+  background: transparent
+  foreground: '#FEF5ED'
+  template: ' '
+
+tooltips:
+  - type: kubectl
+    tips:
+      - kubectl
+      - kube
+      - helm
+    style: plain
+    foreground: 'p:kubernetes-text'
+    properties:
+      parse_kubeconfig: true
+    template: '󰠳 {{.Context}}'
+  - type: aws
+    tips:
+      - aws
+      - terraform
+      - tofu
+    style: plain
+    foreground: "p:cloud-text-aws"
+    template: '<b>󰸏</b> {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }}'
+  - type: az
+    style: plain
+    tips:
+      - az
+      - terraform
+      - tofu
+    foreground: "p:cloud-text-azure"
+    template: '{{if .TenantDisplayName}} {{ .Name }}{{ end }}'
+    properties:
+      source: first_match
+  - type: gcp
+    tips:
+      - gcloud
+      - terraform
+      - tofu
+    style: plain
+    foreground: "p:cloud-text-gcp"
+    template: '{{ if .Error }}{{ .Error }}{{ else }} {{ .Project }}{{ end }} '
+
 blocks:
   - alignment: left
     newline: true
@@ -23,11 +64,12 @@ blocks:
     segments:
       - type: session
         foreground: 'p:user'
-        leading_diamond: '<#ff70a6>  </>'
+        leading_diamond: '<#ff70a6>󰇥 </>'
         properties:
           display_host: true
         style: diamond
-        template: '{{ if .SSHSession }}  {{ if .Root }} <#ffffff>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <#ffffff>at</>'
+        template: >-
+          {{ if .SSHSession }}  {{ if .Root }} <#ffffff>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <#ffffff>at</>
       - type: git
         alias: gitSeg
         foreground: '#ee79d1'
@@ -37,43 +79,53 @@ blocks:
           fetch_upstream_icon: true
           fetch_worktree_count: true
         style: diamond
-        template: ' {{ .UpstreamIcon }} {{ .RepoName }} - {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+        template: ' {{ .UpstreamIcon }} {{ .RepoName }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
       - type: text
         style: plain
-        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}  {{.Folder}} {{ end }}</>'
+        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}  {{.Folder}} {{ end }}</>'
   - alignment: right
     type: prompt
     segments:
+      - type: status
+        style: plain
+        template: "{{ if eq .Code 0 }}<p:success-text>\uf00c{{ else }}<p:error-text>\uf071{{ end }}"
+        properties:
+          always_enabled: true
       - foreground: 'p:right-section'
         properties:
           style: dallas
           threshold: 0
-        style: diamond
+        style: plain
         template: ' {{ .FormattedMs }}s <#ffffff>|</>'
         type: executiontime
       - foreground: 'p:right-section'
         properties:
-          time_format: 'Monday <#ffffff>at</> 3:04 PM'
+          time_format: '_2 Jan 2006(Mon)<#ffffff>,</>15:04'
         style: diamond
-        template: ' {{ .CurrentDate | date .Format }} '
+        template: '{{ .CurrentDate | date .Format }} '
         type: time
   - alignment: left
     newline: true
+    type: prompt
     segments:
       - foreground: '#ffafd2'
-        leading_diamond: '<#00c7fc>  </><#ffafd2>{</>'
+        leading_diamond: '<#00c7fc></><#ffafd2></>'
+        trailing_diamond: '<#ffafd2> </>'
         properties:
-          folder_icon: 
-          folder_separator_icon: '  '
+          style: agnoster_short
           home_icon: home
-          style: agnoster_full
+          max_depth: 2
+          folder_icon: ...
+          folder_separator_icon: "/"
         style: diamond
-        template: '  {{ .Path }} '
-        trailing_diamond: '<#ffafd2>} </>'
+        template: ' {{ .Path }} '
         type: path
+  - alignment: left
+    newline: true
+    segments:
+    - foreground: "#7eb8da"
+      style: plain
+      template: '<#00c7fc> </>'
+      type: text
     type: prompt
-console_title_template: '{{ .Folder }}'
-transient_prompt:
-  background: transparent
-  foreground: '#FEF5ED'
-  template: ' '
+
