@@ -63,11 +63,11 @@ blocks:
     type: prompt
     segments:
       - type: session
+        style: diamond
         foreground: 'p:user-text'
         leading_diamond: '<p:first-left-prompt>󰇥 </>'
         properties:
           display_host: true
-        style: diamond
         template: >-
           {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>at</>
       - type: git
