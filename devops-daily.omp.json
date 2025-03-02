@@ -1,0 +1,177 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 3,
+  "console_title_template": "{{ .Folder }}",
+  "palette": {
+    "background-color": "transparent",
+    "white-text": "#ffffff",
+    "first-left-prompt": "#ff70a6",
+    "first-right-prompt": "#fad38c",
+    "second-left-prompt": "#ffafd2",
+    "third-left-prompt": "#7eb8da",
+    "cloud-text-aws": "#fa9e2d",
+    "cloud-text-azure": "#4285F4",
+    "cloud-text-gcp": "#82fa2d",
+    "user": "#ffbebc",
+    "git-text": "#ee79d1",
+    "kubernetes-text": "#6388ff",
+    "success-text": "#57fa6c",
+    "error-text": "#eb4034"
+  },
+  "tooltips": [
+    {
+      "type": "kubectl",
+      "tips": [
+        "kubectl",
+        "kubectx",
+        "kube",
+        "helm"
+      ],
+      "style": "plain",
+      "foreground": "p:kubernetes-text",
+      "properties": {
+        "parse_kubeconfig": true
+      },
+      "template": "󰠳 {{.Context}}"
+    },
+    {
+      "type": "aws",
+      "tips": [
+        "aws",
+        "terraform",
+        "tofu"
+      ],
+      "style": "plain",
+      "foreground": "p:cloud-text-aws",
+      "template": "<b>󰸏</b> {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }}"
+    },
+    {
+      "type": "az",
+      "style": "plain",
+      "tips": [
+        "az",
+        "terraform",
+        "tofu"
+      ],
+      "foreground": "p:cloud-text-azure",
+      "template": "{{if .TenantDisplayName}} {{ .Name }}{{ end }}",
+      "properties": {
+        "source": "first_match"
+      }
+    },
+    {
+      "type": "gcp",
+      "tips": [
+        "gcloud",
+        "terraform",
+        "tofu"
+      ],
+      "style": "plain",
+      "foreground": "p:cloud-text-gcp",
+      "template": "{{ if .Error }}{{ .Error }}{{ else }} {{ .Project }}{{ end }} "
+    }
+  ],
+  "blocks": [
+    {
+      "alignment": "left",
+      "newline": true,
+      "type": "prompt",
+      "segments": [
+        {
+          "type": "session",
+          "style": "diamond",
+          "foreground": "p:user-text",
+          "leading_diamond": "<p:first-left-prompt>󰇥 </>",
+          "properties": {
+            "display_host": true
+          },
+          "template": "{{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>at</>"
+        },
+        {
+          "type": "git",
+          "alias": "gitSeg",
+          "foreground": "p:git-text",
+          "properties": {
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "fetch_worktree_count": true
+          },
+          "style": "diamond",
+          "template": " {{ .UpstreamIcon }} {{ .RepoName }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "{{ if .Segments.Contains \"gitSeg\" }}{{else}}  {{.Folder}} {{ end }}</>"
+        }
+      ]
+    },
+    {
+      "alignment": "right",
+      "type": "prompt",
+      "segments": [
+        {
+          "type": "status",
+          "style": "plain",
+          "template": "{{ if eq .Code 0 }}<p:success-text>{{ else }}<p:error-text>{{ end }}",
+          "properties": {
+            "always_enabled": true
+          }
+        },
+        {
+          "foreground": "p:first-right-prompt",
+          "properties": {
+            "style": "dallas",
+            "threshold": 0
+          },
+          "style": "plain",
+          "template": " {{ .FormattedMs }}s <p:white-text>|</>",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "p:first-right-prompt",
+          "properties": {
+            "time_format": "_2 Jan 2006(Mon)<p:white-text>,</>15:04"
+          },
+          "style": "diamond",
+          "template": "{{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        }
+      ]
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "type": "prompt",
+      "segments": [
+        {
+          "foreground": "p:second-left-prompt",
+          "properties": {
+            "style": "agnoster_short",
+            "home_icon": "home",
+            "max_depth": 2,
+            "folder_icon": "...",
+            "folder_separator_icon": "/"
+          },
+          "style": "plain",
+          "template": " {{ .Path }} ",
+          "type": "path"
+        }
+      ]
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "p:third-left-prompt",
+          "style": "plain",
+          "template": " ",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ]
+}
