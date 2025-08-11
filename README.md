@@ -28,11 +28,5 @@
 
 ## Sample Output
 
-- Git
-    ![Git](./readme_assets/git.png "Git")
-- Kubernetes ToolTips
-    ![Kubernetes ToolTips](./readme_assets/kubernetes.png "Kubernetes Tooltips")
-- Kubernetes ToolTips
-    ![AWS](./readme_assets/aws.png "AWS")
-- Kubernetes ToolTips
-    ![Azure](./readme_assets/azure.png "Azure")
+- Theme
+    ![Theme](./readme_assets/theme.png "Theme")
