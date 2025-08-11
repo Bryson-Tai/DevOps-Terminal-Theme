@@ -17,6 +17,8 @@
 - Execution Time
 - Date & Time
 - Directory Path
+- Programming Language
+  - Python Env
 - DevOps Workspace Tooltips (Require CLI)
   - AWS CLI with Terraform / OpenTofu
   - Azure CLI with Terraform / OpenTofu
