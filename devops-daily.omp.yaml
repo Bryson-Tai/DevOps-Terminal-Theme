@@ -5,15 +5,15 @@ console_title_template: "{{ .Folder }}"
 palette:
   background-color: transparent
   white-text: "#ffffff"
-  first-row-icon: "#58A0C8"
-  wording: "#FFDE63"
-  third-left-prompt: "#58A0C8"
+  first-row-icon: "#65acf7"
+  wording: "#a8e05e"
+  third-left-prompt: "#65acf7"
   cloud-text-aws: "#ff9800"
   cloud-text-azure: "#3391f0"
   cloud-text-gcp: "#679b00"
   user: "#d19a66"
   python-text: "#93DA97"
-  git-text: "#58A0C8"
+  git-text: "#65acf7"
   kubernetes-text: "#93DA97"
   error-text: "#eb4034"
 
@@ -70,7 +70,7 @@ blocks:
         properties:
           display_host: true
         template: >-
-          {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
+          {{ if .SSHSession }} {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
       - type: git
         alias: gitSeg
         foreground: "p:git-text"
@@ -83,7 +83,7 @@ blocks:
         template: " {{ .UpstreamIcon }} {{ .RepoName }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
       - type: text
         style: plain
-        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}  {{.Folder}} {{ end }}</>'
+        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}   {{.Folder}} {{ end }}</>'
       - type: python
         foreground: "p:python-text"
         style: diamond
@@ -105,7 +105,7 @@ blocks:
           style: dallas
           threshold: 0
         style: plain
-        template: " {{ .FormattedMs }}s <p:white-text>|</>"
+        template: " {{ .FormattedMs }}s <p:white-text>| </>"
         type: executiontime
       - foreground: "p:wording"
         properties:
