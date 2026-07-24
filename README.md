@@ -33,3 +33,7 @@
 - Theme
     ![Theme](./readme_assets/theme.png "Theme")
 
+## Themes
+
+- [Pink Duck](./themes/pink-duck.yaml)
+- [Yellow Calm Blue](./themes/yellow-calm-blue.yaml)
