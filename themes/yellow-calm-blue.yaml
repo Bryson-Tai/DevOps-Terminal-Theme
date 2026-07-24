@@ -1,19 +1,22 @@
 $schema: >-
   https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
-version: 3
+
+version: 4
+
 console_title_template: "{{ .Folder }}"
+
 palette:
   background-color: transparent
   white-text: "#ffffff"
-  first-row-icon: "#65acf7"
-  wording: "#a8e05e"
-  third-left-prompt: "#65acf7"
+  first-row-icon: "#58A0C8"
+  wording: "#FFDE63"
+  third-left-prompt: "#58A0C8"
   cloud-text-aws: "#ff9800"
   cloud-text-azure: "#3391f0"
   cloud-text-gcp: "#679b00"
   user: "#d19a66"
   python-text: "#93DA97"
-  git-text: "#65acf7"
+  git-text: "#58A0C8"
   kubernetes-text: "#93DA97"
   error-text: "#eb4034"
 
@@ -28,7 +31,7 @@ tooltips:
       - k9s
     style: plain
     foreground: "p:kubernetes-text"
-    properties:
+    options:
       parse_kubeconfig: true
     template: "󰠳 {{.Context}}"
   - type: aws
@@ -47,8 +50,8 @@ tooltips:
       - tofu
     foreground: "p:cloud-text-azure"
     template: "{{if .TenantDisplayName}} {{ .Name }}{{ end }}"
-    properties:
-      source: first_match
+    options:
+      source: cli
   - type: gcp
     tips:
       - gcloud
@@ -67,27 +70,25 @@ blocks:
         style: diamond
         foreground: "p:user-text"
         leading_diamond: "<p:first-row-icon>󰇥 </>"
-        properties:
+        options:
           display_host: true
         template: >-
-          {{ if .SSHSession }} {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
+          {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
       - type: git
         alias: gitSeg
         foreground: "p:git-text"
-        properties:
-          fetch_stash_count: true
+        options:
           fetch_status: true
           fetch_upstream_icon: true
-          fetch_worktree_count: true
         style: diamond
         template: " {{ .UpstreamIcon }} {{ .RepoName }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
       - type: text
         style: plain
-        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}   {{.Folder}} {{ end }}</>'
+        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}  {{.Folder}} {{ end }}</>'
       - type: python
         foreground: "p:python-text"
         style: diamond
-        properties:
+        options:
           fetch_virtual_env: true
           display_mode: environment
           home_enabled: true
@@ -98,17 +99,17 @@ blocks:
       - type: status
         style: plain
         template: "{{ if eq .Code 0 }}<p:first-row-icon>\uf00c{{ else }}<p:error-text>\uf071{{ end }}"
-        properties:
+        options:
           always_enabled: true
       - foreground: "p:wording"
-        properties:
+        options:
           style: dallas
           threshold: 0
         style: plain
-        template: " {{ .FormattedMs }}s <p:white-text>| </>"
+        template: " {{ .FormattedMs }}s <p:white-text>|</>"
         type: executiontime
       - foreground: "p:wording"
-        properties:
+        options:
           time_format: "_2 Jan 2006(Mon)<p:white-text>,</>15:04"
         style: diamond
         template: "{{ .CurrentDate | date .Format }} "
@@ -118,7 +119,7 @@ blocks:
     type: prompt
     segments:
       - foreground: "p:wording"
-        properties:
+        options:
           style: agnoster_short
           home_icon: home
           max_depth: 2
@@ -127,6 +128,22 @@ blocks:
         style: plain
         template: " {{ .Path }} "
         type: path
+  # AI-Fluency-Tool Integrated in this section
+  # Pre-requisites: Install the AI-Engineering-Fluency and ensure it is accessible in your system's PATH.
+  # https://github.com/rajbos/ai-engineering-fluency
+  - type: prompt
+    alignment: right
+    segments:
+      - options:
+          style: dallas
+          threshold: 0
+        cache: 
+          duration: 5m
+          strategy: session
+        template: 'AI-Token > {{ cmd "ai-engineering-fluency" "segment" }} '
+        foreground: p:cloud-text-aws
+        type: text
+        style: diamond
   - alignment: left
     newline: true
     segments:
