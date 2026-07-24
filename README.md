@@ -28,12 +28,10 @@
     - kubectx
     - helm
 
-## Sample Output
-
-- Theme
-    ![Theme](./readme_assets/theme.png "Theme")
-
 ## Themes
 
 - [Pink Duck](./themes/pink-duck.yaml)
+  ![Theme](./readme_assets/themes/pink-duck.png "Pink-Duck-Theme")
+
 - [Yellow Calm Blue](./themes/yellow-calm-blue.yaml)
+  ![Theme](./readme_assets/themes/yellow-calm-blue.png "Yellow-Calm-Blue-Theme")
