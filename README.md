@@ -6,8 +6,9 @@
 - Install [Nerd Font](https://www.nerdfonts.com/font-downloads), I am using `FiraCode Nerd Font`. Make sure to set this font to your terminal, else you will see `?` like logo.
 - Copy the theme configuration YAML into your local terminal, suggested to put into `../bin/oh-my-posh/custom/themes/devops-daily.omp.yaml`.
 - Add command below into `.zshrc`. Change `--config` path refer to your local theme configuration YAML.
+
     ```bash
-    eval "$(oh-my-posh init zsh --config '../oh-my-posh/custom/themes/devops-daily.omp.yaml')"
+    eval "$(oh-my-posh init zsh --config '"$HOME"/oh-my-posh/custom/themes/devops-daily.omp.yaml')"
     ```
 
 ## Features
@@ -17,21 +18,22 @@
 - Execution Time
 - Date & Time
 - Directory Path
+- Cloud Provider Info
+  - Azure
+- Kubernetes Context & Namespace
+- Docker Context
+- AI-Token Usage
+  - Integrated with [AI-Engineering-Fluency](https://github.com/rajbos/ai-engineering-fluency)
 - Programming Language
   - Python Env
 - DevOps Workspace Tooltips (Require CLI)
-  - AWS CLI with Terraform / OpenTofu
-  - Azure CLI with Terraform / OpenTofu
-  - GCP CLI with Terraform / OpenTofu
-  - Kubernetes
-    - kubectl
-    - kubectx
-    - helm
+  - Helm Version
 
 ## Themes
 
 - [Pink Duck](./themes/pink-duck.yaml)
   ![Theme](./readme_assets/themes/pink-duck.png "Pink-Duck-Theme")
-
-- [Yellow Calm Blue](./themes/yellow-calm-blue.yaml)
-  ![Theme](./readme_assets/themes/yellow-calm-blue.png "Yellow-Calm-Blue-Theme")
+- [Autumn Ember](./themes/autumn-ember.yaml)
+  ![Theme](./readme_assets/themes/autumn-ember.png "Autumn-Ember-Theme")
+- [Forest Tide](./themes/forest-tide.yaml)
+  ![Theme](./readme_assets/themes/forest-tide.png "Forest-Tide-Theme")
