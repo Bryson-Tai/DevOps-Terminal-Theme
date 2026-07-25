@@ -17,21 +17,18 @@
 - Execution Time
 - Date & Time
 - Directory Path
+- AI-Token Usage
+  - Integrated with [AI-Engineering-Fluency](https://github.com/rajbos/ai-engineering-fluency)
 - Programming Language
   - Python Env
 - DevOps Workspace Tooltips (Require CLI)
-  - AWS CLI with Terraform / OpenTofu
-  - Azure CLI with Terraform / OpenTofu
-  - GCP CLI with Terraform / OpenTofu
-  - Kubernetes
-    - kubectl
-    - kubectx
-    - helm
+  - Helm Version
 
 ## Themes
 
 - [Pink Duck](./themes/pink-duck.yaml)
   ![Theme](./readme_assets/themes/pink-duck.png "Pink-Duck-Theme")
-
-- [Yellow Calm Blue](./themes/yellow-calm-blue.yaml)
-  ![Theme](./readme_assets/themes/yellow-calm-blue.png "Yellow-Calm-Blue-Theme")
+- [Autumn Ember](./themes/autumn-ember.yaml)
+  ![Theme](./readme_assets/themes/autumn-ember.png "Autumn-Ember-Theme")
+- [Forest Tide](./themes/forest-tide.yaml)
+  ![Theme](./readme_assets/themes/forest-tide.png "Forest-Tide-Theme")
