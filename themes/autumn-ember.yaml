@@ -1,0 +1,188 @@
+$schema: >-
+  https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version: 4
+
+console_title_template: "{{ .Folder }}"
+
+palette:
+  background-color: transparent
+  white-text: "#fff3e0"
+  first-row-icon: "#c1440e"
+  wording: "#e9b872"
+  third-left-prompt: "#8c3b3b"
+  cloud-text-aws: "#e9b872"
+  cloud-text-azure: "#c1440e"
+  cloud-text-gcp: "#7a9e5e"
+  user: "#d9822b"
+  python-text: "#7a9e5e"
+  git-text: "#8c3b3b"
+  kubernetes-text: "#c1440e"
+  error-text: "#a4161a"
+
+tooltips:
+  - type: helm
+    tips:
+      - helm
+    style: plain
+    foreground: "p:wording"
+    template: '{{ if .Version}} <b>Helm: {{.Version}}</b> {{ end }}'
+  # - type: aws
+  #   tips:
+  #     - aws
+  #   style: plain
+  #   foreground: "p:cloud-text-aws"
+  #   template: "{{ if .Profile}}<b>󰸏</b> {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }}{{ end }}"
+
+blocks:
+  # Azure & Kubernetes Information Section
+  - alignment: left
+    newline: true
+    overflow: break
+    type: prompt
+    segments:
+      - type: az
+        style: plain
+        foreground: "p:cloud-text-azure"
+        template: "{{ if .ID }}☁️  {{ .Name }}  {{ .ID }}{{ end }}"
+        #TODO: Test Data
+        # template: "{{ if .ID }}☁️  MY_AZURE_SUBSCRIPTION  d5ba54d3-fc96-4bcb-880f-f449bde13029 {{ end }}"
+        options:
+          source: cli
+      # - type: aws
+      #   style: plain
+      #   foreground: "p:cloud-text-aws"
+      #   template: "{{ if .Profile }}<p:white-text>| <b>󰸏</b> {{ .Profile }}   {{ if .Region }}@{{ .Region }}{{ end }}{{ end }}"
+  # AWS & Kubernetes Information Section
+  - alignment: right
+    type: prompt
+    overflow: hide
+    segments:
+      - type: kubectl
+        style: plain
+        foreground: "p:kubernetes-text"
+        template: "{{ if .Context }}󱃾 {{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}} <p:white-text>| {{ end }}"
+        #TODO: Test Data
+        # template: "{{ if .Context }}󱃾 production-cluster :: devops-namespace <p:white-text>| {{ end }}"
+      - type: docker
+        style: plain
+        foreground: "p:kubernetes-text"
+        template: "{{ if .Context }} {{ .Context }}{{ end }}"
+  # User, Git, and Python Information Section
+  - alignment: left
+    type: prompt
+    newline: true
+    segments:
+      - type: session
+        style: diamond
+        foreground: "p:user-text"
+        leading_diamond: "<p:first-row-icon>󰇥 </>"
+        options:
+          display_host: true
+        template: >-
+          {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
+        #TODO: Test Data
+        # template: >-
+          # {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}BRYSON{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
+      - type: git
+        alias: gitSeg
+        foreground: "p:git-text"
+        options:
+          fetch_status: true
+          fetch_upstream_icon: true
+          mapped_branches:
+              feat/*: " 🚀 feat/"
+              feature/*: " 🚀 feature/"
+              bug/*: " 🐛 bug/"
+              bugfix/*: " 🐛 bugfix/"
+              release/*: " 🏷️ release/"
+              main: " 🌲main"
+              master: " 🌲master"
+        style: diamond
+        template: " {{ url .UpstreamIcon .UpstreamURL }}  {{ .RepoName }} {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
+      - type: text
+        style: plain
+        template: '{{ if .Segments.Contains "gitSeg" }}{{else}}  {{.Folder}} {{ end }}</>'
+      - type: python
+        foreground: "p:python-text"
+        style: diamond
+        options:
+          fetch_virtual_env: true
+          display_mode: environment
+          home_enabled: true
+        template: "|  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}{{ end }}{{ end }}"
+  # AI-Fluency-Tool Integrated section
+  # Pre-requisites: Install the AI-Engineering-Fluency and ensure it is accessible in your system's PATH.
+  # https://github.com/rajbos/ai-engineering-fluency
+  - type: prompt
+    alignment: right
+    overflow: hide
+    segments:
+      - options:
+          style: dallas
+          threshold: 0
+        cache: 
+          duration: 5m
+          strategy: session
+        template: '{{ if cmd "ai-engineering-fluency" "--version" }}👾 AI-Token > {{ cmd "ai-engineering-fluency" "segment" }}{{ end }}'
+        foreground: p:cloud-text-aws
+        type: text
+        style: diamond
+  # Path, Execution Time and Current Date Section
+  - alignment: left
+    newline: true
+    type: prompt
+    segments:
+      - foreground: "p:wording"
+        options:
+          style: agnoster_short
+          home_icon: home
+          max_depth: 2
+          folder_icon: ...
+          folder_separator_icon: "/"
+        style: plain
+        template: " {{ .Path }} <p:white-text>| "
+        type: path
+      - type: status
+        style: plain
+        template: "{{ if eq .Code 0 }}<p:first-row-icon>\uf00c{{ else }}<p:error-text>\uf071{{ end }}"
+        options:
+          always_enabled: true
+      - foreground: "p:wording"
+        options:
+          style: dallas
+          threshold: 0
+        style: plain
+        template: " {{ .FormattedMs }}s</> "
+        type: executiontime
+      - foreground: "p:wording"
+        options:
+          time_format: "_2 Jan 2006<p:white-text>, Mon<p:white-text>, </>15:04"
+        style: diamond
+        template: "({{ .CurrentDate | date .Format }})"
+        type: time
+  # GitHub Copilot Section
+  # - alignment: right
+  #   type: prompt
+  #   overflow: hide
+  #   segments:
+  #     - type: copilot
+  #       style: diamond
+  #       foreground: "#111111"
+  #       background: "#fee898"
+  #       template: "  {{ .Premium.Percent.GaugeUsed() }} "
+  #       # template: " \uec1e {{ .Premium.Percent.Gauge }} "
+  #       cache:
+  #         duration: 5m
+  #         strategy: session
+  #       options:
+  #         http_timeout: 1000
+  # Prompt Section
+  - alignment: left
+    newline: true
+    segments:
+      - foreground: "p:third-left-prompt"
+        style: plain
+        template: " "
+        type: text
+    type: prompt
