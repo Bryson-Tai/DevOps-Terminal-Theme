@@ -1,5 +1,28 @@
 # Release Notes
 
+## v2.1.0 — 2026-07-26
+
+### Changed
+- All three themes (`autumn-ember.yaml`, `forest-tide.yaml`, `pink-duck.yaml`)
+  now render identically for the following prompt segments:
+  - `session` segment foreground standardized to `p:white-text` (was
+    `p:user-text` on some themes).
+  - `path` segment template simplified to `" {{ .Path }}"`, dropping the
+    trailing `<p:white-text>| ` separator.
+  - `status`, `executiontime`, and `time` segments moved into their own
+    right-aligned `prompt` block (`alignment: right`, `overflow: hide`),
+    separated from the `path` segment's block.
+  - `executiontime` template unified to
+    `" {{ .FormattedMs }}s <p:white-text>⏱️</> "` (replacing the `|`
+    separator / missing separator across themes).
+  - `time` segment template unified to
+    `" {{ .CurrentDate | date .Format }} "` (consistent leading/trailing
+    spaces, parentheses removed).
+- Updated preview images (`autumn-ember.png`, `forest-tide.png`,
+  `pink-duck.png`) to reflect the new prompt layout.
+- `themes/autumn-ember.yaml` / `themes/pink-duck.yaml`: fixed indentation of
+  the commented-out `#TODO: Test Data` sample template line.
+
 ## v2.0.0 — 2026-07-25
 
 ### Added

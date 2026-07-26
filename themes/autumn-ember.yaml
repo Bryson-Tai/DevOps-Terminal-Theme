@@ -75,7 +75,7 @@ blocks:
     segments:
       - type: session
         style: diamond
-        foreground: "p:user-text"
+        foreground: "p:white-text"
         leading_diamond: "<p:first-row-icon>󰇥 </>"
         options:
           display_host: true
@@ -83,7 +83,7 @@ blocks:
           {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}{{ .UserName }}{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
         #TODO: Test Data
         # template: >-
-          # {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}BRYSON{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
+        #   {{ if .SSHSession }}  {{ if .Root }} <p:white-text>isRoot{{ end }}{{ end }}BRYSON{{ if .SSHSession }}@{{.HostName}}{{ end }} <p:white-text>@</>
       - type: git
         alias: gitSeg
         foreground: "p:git-text"
@@ -141,8 +141,12 @@ blocks:
           folder_icon: ...
           folder_separator_icon: "/"
         style: plain
-        template: " {{ .Path }} <p:white-text>| "
+        template: " {{ .Path }}"
         type: path
+  - alignment: right
+    type: prompt
+    overflow: hide
+    segments:
       - type: status
         style: plain
         template: "{{ if eq .Code 0 }}<p:first-row-icon>\uf00c{{ else }}<p:error-text>\uf071{{ end }}"
@@ -153,19 +157,15 @@ blocks:
           style: dallas
           threshold: 0
         style: plain
-        template: " {{ .FormattedMs }}s</> "
+        template: " {{ .FormattedMs }}s <p:white-text>⏱️</> "
         type: executiontime
       - foreground: "p:wording"
         options:
           time_format: "_2 Jan 2006<p:white-text>, Mon<p:white-text>, </>15:04"
         style: diamond
-        template: "({{ .CurrentDate | date .Format }})"
+        template: " {{ .CurrentDate | date .Format }} "
         type: time
   # GitHub Copilot Section
-  # - alignment: right
-  #   type: prompt
-  #   overflow: hide
-  #   segments:
   #     - type: copilot
   #       style: diamond
   #       foreground: "#111111"
